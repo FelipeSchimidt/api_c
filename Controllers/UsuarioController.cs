@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using aspApi.Models;
 using aspApi.Database;
@@ -14,7 +13,7 @@ namespace aspApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController
     {
         private ApiDBContext context;
 
@@ -27,6 +26,12 @@ namespace aspApi.Controllers
         public IEnumerable<Usuario> Get()
         {
             return context.Usuarios.ToList();
+        }
+
+        [HttpGet("user")]
+        public HttpResponseMessage GetUsuario(int id)
+        {
+            var usuario = context.Usuarios.FirstOrDefault(u => u.id == id);
         }
 
         [HttpPost]
