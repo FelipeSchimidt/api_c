@@ -57,8 +57,8 @@ namespace aspApi.Controllers
                 );
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Usuario>> UpdateUsuario(int id, Usuario usuario)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Usuario>> UpdateUsuario(int id, [FromBody]Usuario usuario)
         {
             if (id != usuario.id)
             {
@@ -69,13 +69,27 @@ namespace aspApi.Controllers
             * Especifica uma entitdade que tera seu estado alterado
             */
             context.Entry(usuario).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (context.Usuarios.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return usuario;
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Usuario>> DeleteUsuario(int id)
         {
             var user = await context.Usuarios.FindAsync(id);
