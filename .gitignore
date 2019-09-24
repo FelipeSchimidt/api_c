@@ -2,6 +2,7 @@
 .vscode
 
 # Path bin and obj
-bin\
+bin\Debug
+obj
 
-obj\
+.DS_Store
