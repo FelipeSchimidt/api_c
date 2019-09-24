@@ -9,5 +9,6 @@ namespace aspApi.Database
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Agenda> Agendas { get; set; }
     }
 }
