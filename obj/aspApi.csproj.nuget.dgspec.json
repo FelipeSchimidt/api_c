@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/felipe/dev/api_c/aspApi.csproj": {}
+    "C:\\Developer\\api_c\\aspApi.csproj": {}
   },
   "projects": {
-    "/home/felipe/dev/api_c/aspApi.csproj": {
+    "C:\\Developer\\api_c\\aspApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/felipe/dev/api_c/aspApi.csproj",
+        "projectUniqueName": "C:\\Developer\\api_c\\aspApi.csproj",
         "projectName": "aspApi",
-        "projectPath": "/home/felipe/dev/api_c/aspApi.csproj",
-        "packagesPath": "/home/felipe/.nuget/packages/",
-        "outputPath": "/home/felipe/dev/api_c/obj/",
+        "projectPath": "C:\\Developer\\api_c\\aspApi.csproj",
+        "packagesPath": "C:\\Users\\Felipe\\.nuget\\packages\\",
+        "outputPath": "C:\\Developer\\api_c\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/felipe/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Felipe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

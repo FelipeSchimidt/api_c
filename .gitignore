@@ -1,2 +1,7 @@
 # Path .vscode
 .vscode
+
+# Path bin and obj
+bin\
+
+obj\

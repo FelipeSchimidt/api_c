@@ -10,6 +10,7 @@ namespace aspApi.Models
         [Required(ErrorMessage = "Nome do evento obrigatório")]
         public string name { get; set; }
         public string description { get; set; }
+        [Required(ErrorMessage = "Data do evento obrigatório")]
         public DateTime dateEvent { get; set; }
 
     }
