@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspApi.Database;
 
 namespace aspApi.Migrations
 {
     [DbContext(typeof(ApiDBContext))]
-    partial class ApiDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190925203346_relationshipAgendaUsuarioEvento")]
+    partial class relationshipAgendaUsuarioEvento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,19 +23,25 @@ namespace aspApi.Migrations
 
             modelBuilder.Entity("aspApi.Models.Agenda", b =>
                 {
-                    b.Property<int>("UsuarioId");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EventoId");
+                    b.Property<int>("eventoid");
 
                     b.Property<string>("observacao");
+
+                    b.Property<int>("usuarioid");
 
                     b.Property<byte[]>("versao")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.HasKey("UsuarioId", "EventoId");
+                    b.HasKey("id");
 
-                    b.HasIndex("EventoId");
+                    b.HasIndex("eventoid");
+
+                    b.HasIndex("usuarioid");
 
                     b.ToTable("Agendas");
                 });
@@ -83,12 +91,12 @@ namespace aspApi.Migrations
                 {
                     b.HasOne("aspApi.Models.Evento", "evento")
                         .WithMany("Agendas")
-                        .HasForeignKey("EventoId")
+                        .HasForeignKey("eventoid")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("aspApi.Models.Usuario", "Usuario")
+                    b.HasOne("aspApi.Models.Usuario", "usuario")
                         .WithMany("Agendas")
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("usuarioid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

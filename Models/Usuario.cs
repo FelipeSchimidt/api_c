@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aspApi.Models
 {
     public class Usuario
     {
+        [Key]
         public int id { get; set; }
         [Required(ErrorMessage = "Nome obrigatorio")]
         public string firstName { get; set; }
@@ -15,5 +18,6 @@ namespace aspApi.Models
         [Required(ErrorMessage = "Email obrigatorio")]
         public string mail { get; set; }
         public string passwords { get; set; }
+        public IList<Agenda> Agendas { get; set; }
     }
 }

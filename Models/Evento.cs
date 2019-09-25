@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace aspApi.Models
@@ -13,5 +14,6 @@ namespace aspApi.Models
         [Required(ErrorMessage = "Data do evento obrigatório")]
         public DateTime dateEvent { get; set; }
 
+        public IList<Agenda> Agendas { get; set; }
     }
 }
