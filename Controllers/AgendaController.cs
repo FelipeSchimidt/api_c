@@ -43,6 +43,25 @@ namespace aspApi.Controllers
             return agenda;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Agenda>> CreateAgenda(Agenda agenda)
+        {
+            var usuario = context.Usuarios.FirstAsync(x => x.id == agenda.UsuarioId);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            var evento = context.Eventos.FirstAsync(x => x.id == agenda.EventoId);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+
+            context.Agendas.Add(agenda);
+            await context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAgenda), agenda);
+        }
 
     }
 }
