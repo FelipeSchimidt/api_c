@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +13,8 @@ namespace aspApi.Models
         public int EventoId { get; set; }
         public Evento evento { get; set; }
         public string observacao { get; set; }
-        [Timestamp]
-        public byte[] versao { get; set; }
+        [DataType(DataType.Date)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedAt { get; set; }
     }
 }

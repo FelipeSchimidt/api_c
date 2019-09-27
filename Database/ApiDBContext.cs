@@ -13,7 +13,12 @@ namespace aspApi.Database
             {
                 ag.UsuarioId,
                 ag.EventoId
-            });
+            }
+            );
+
+            builder.Entity<Agenda>()
+                .Property(ag => ag.CreatedAt)
+                .HasDefaultValueSql("GETDATE()");
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
