@@ -2,7 +2,7 @@
 .vscode
 
 # Path bin and obj
-obj
-bin
+obj\
+bin\
 
 .DS_Store
