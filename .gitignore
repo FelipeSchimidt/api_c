@@ -6,4 +6,4 @@ obj
 bin
 
 # #Appsettings.json
-appsettings.json
+appsettings.Development.json
