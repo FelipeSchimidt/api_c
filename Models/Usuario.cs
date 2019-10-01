@@ -8,16 +8,17 @@ namespace aspApi.Models
     public class Usuario
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "Nome obrigatorio")]
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTime birth { get; set; }
+        public DateTime Birth { get; set; }
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Insira um endereço de email valido")]
         [Required(ErrorMessage = "Email obrigatorio")]
-        public string mail { get; set; }
-        public string passwords { get; set; }
+        public string Mail { get; set; }
+        public string Passwords { get; set; }
         public IList<Agenda> Agendas { get; set; }
     }
 }

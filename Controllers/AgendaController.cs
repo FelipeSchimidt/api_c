@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 using aspApi.Models;
@@ -22,36 +24,43 @@ namespace aspApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Agenda>>> GetAgendas()
+        public async Task<IActionResult> GetAgendas()
         {
-            var agenda = await context.Agendas.ToListAsync();
-            if (agenda == null)
+            try
             {
-                return NotFound();
+                var results = await context.Agendas.ToListAsync();
+
+                return Ok(results);
             }
-            return agenda;
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, "Resultados não encontrado");
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Agenda>> GetAgenda(int id)
+        public async Task<IActionResult> GetAgenda(int id)
         {
-            var agenda = await context.Agendas.FindAsync(id);
-            if (agenda == null)
+            try
             {
-                return NotFound();
+                var results = await context.Agendas.FirstOrDefaultAsync(x => x.Id == id);
+                return Ok(results);
             }
-            return agenda;
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, "Resultados não encontrado");
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<Agenda>> CreateAgenda(Agenda agenda)
+        public async Task<IActionResult> CreateAgenda(Agenda agenda)
         {
-            var usuario = context.Usuarios.FirstAsync(x => x.id == agenda.UsuarioId);
+            var usuario = context.Usuarios.FirstAsync(x => x.Id == agenda.Users);
             if (usuario == null)
             {
                 return NotFound();
             }
-            var evento = context.Eventos.FirstAsync(x => x.id == agenda.EventoId);
+            var evento = context.Eventos.FirstAsync(x => x.Id == agenda.Events);
             if (evento == null)
             {
                 return NotFound();
