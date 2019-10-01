@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using aspApi.Models;
 using aspApi.Database;
@@ -11,7 +12,7 @@ namespace aspApi.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private ApiDBContext context;
+        private readonly ApiDBContext context;
 
         public UsuarioController(ApiDBContext _context)
         {
@@ -19,26 +20,31 @@ namespace aspApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
+        public async Task<IActionResult> GetUsuarios()
         {
-            return await context.Usuarios.ToListAsync();
+            var users = await context.Usuarios.ToListAsync();
+
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(int id)
+        public async Task<IActionResult> GetUsuario(int id)
         {
-            var usuario = await context.Usuarios.FindAsync(id);
-
-            if (usuario == null)
+            try
             {
-                return NotFound();
+                var usuario = await context.Usuarios.FindAsync(id);
+
+                return Ok(usuario);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, "Usuario não encontrado");
             }
 
-            return usuario;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Usuario>> CreateUsuario(Usuario usuario)
+        public async Task<IActionResult> CreateUsuario(Usuario usuario)
         {
             context.Usuarios.Add(usuario);
             await context.SaveChangesAsync();
@@ -50,56 +56,48 @@ namespace aspApi.Controllers
             * 3º - retorna usuário no qual usuario.include == id
             */
             return CreatedAtAction(nameof(GetUsuario),
-                new { id = usuario.id },
+                new { id = usuario.Id },
                 usuario
                 );
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Usuario>> UpdateUsuario(int id, [FromBody]Usuario usuario)
+        public async Task<IActionResult> UpdateUsuario(int id, [FromBody]Usuario usuario)
         {
-            if (id != usuario.id)
-            {
-                return BadRequest();
-            }
-
-            /**
-            * Especifica uma entitdade que tera seu estado alterado
-            */
-            context.Entry(usuario).State = EntityState.Modified;
             try
             {
+                /**
+                * Especifica uma entitdade que tera seu estado alterado
+                */
+                context.Entry(usuario).State = EntityState.Modified;
+
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (context.Usuarios.Find(id) == null)
+                if (id != usuario.Id)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    return this.StatusCode(StatusCodes.Status400BadRequest, "Usuario não encontrado");
                 }
             }
-
-            return usuario;
-
+            return Ok(usuario);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Usuario>> DeleteUsuario(int id)
+        public async Task<IActionResult> DeleteUsuario(int id)
         {
-            var user = await context.Usuarios.FindAsync(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                var user = await context.Usuarios.FindAsync(id);
+                context.Usuarios.Remove(user);
+                await context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            context.Usuarios.Remove(user);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status404NotFound, "Usuario não encontrado");
+            }
         }
     }
 }

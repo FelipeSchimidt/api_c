@@ -9,16 +9,19 @@ namespace aspApi.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Agenda>().HasKey(ag => new
-            {
-                ag.UsuarioId,
-                ag.EventoId
-            }
-            );
+            builder.Entity<Agenda>()
+                .HasKey(ag => new
+                {
+                    ag.Users,
+                    ag.Events
+                });
 
             builder.Entity<Agenda>()
                 .Property(ag => ag.CreatedAt)
                 .HasDefaultValueSql("GETDATE()");
+
+            builder.Entity<Agenda>()
+                .HasKey(ag => ag.Id);
         }
 
         public DbSet<Usuario> Usuarios { get; set; }

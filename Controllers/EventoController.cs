@@ -43,7 +43,7 @@ namespace aspApi.Controllers
             await context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetEvent),
-                new { id = evento.id },
+                new { id = evento.Id },
                 evento
             );
         }
@@ -51,7 +51,7 @@ namespace aspApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Evento>> UpdateEvent(int id, Evento evento)
         {
-            if (id != evento.id)
+            if (id != evento.Id)
             {
                 return NotFound();
             }
