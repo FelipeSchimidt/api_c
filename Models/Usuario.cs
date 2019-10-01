@@ -19,6 +19,7 @@ namespace aspApi.Models
         [Required(ErrorMessage = "Email obrigatorio")]
         public string Mail { get; set; }
         public string Passwords { get; set; }
+        public string ImagemUrl { get; set; }
         public IList<Agenda> Agendas { get; set; }
     }
 }
